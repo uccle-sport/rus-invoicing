@@ -1,0 +1,1 @@
+const val DUMMY_VCS = "500/0000/00073"
