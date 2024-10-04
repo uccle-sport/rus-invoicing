@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
+         xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
+         xmlns:cec="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2"
+         xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+    <cbc:ID>2024004</cbc:ID>
+    <cbc:IssueDate>2023-11-15Z</cbc:IssueDate>
+    <cbc:InvoiceTypeCode listID="UNCL1001">380</cbc:InvoiceTypeCode>
+    <cbc:DocumentCurrencyCode listID="ISO4217">EUR</cbc:DocumentCurrencyCode>
+    <cac:AccountingSupplierParty>
+        <cac:Party>
+            <cbc:EndpointID schemeID="BE:CBE">0411104311</cbc:EndpointID>
+            <cac:PartyIdentification>
+                <cbc:ID>0411104311</cbc:ID>
+            </cac:PartyIdentification>
+            <cac:PartyName>
+                <cbc:Name>Royal Uccle Sport</cbc:Name>
+            </cac:PartyName>
+            <cac:PostalAddress>
+                <cbc:StreetName>Chaussée de Ruisbroek</cbc:StreetName>
+                <cbc:BuildingNumber>18</cbc:BuildingNumber>
+                <cbc:CityName>Uccle</cbc:CityName>
+                <cbc:PostalZone>1180</cbc:PostalZone>
+                <cac:Country>
+                    <cbc:Name>Belgium</cbc:Name>
+                </cac:Country>
+            </cac:PostalAddress>
+            <cac:PartyTaxScheme>
+                <cbc:CompanyID schemeID="BE:VAT">0411104311</cbc:CompanyID>
+                <cac:TaxScheme>
+                    <cbc:ID>VAT</cbc:ID>
+                </cac:TaxScheme>
+            </cac:PartyTaxScheme>
+            <cac:PartyLegalEntity>
+                <cbc:CompanyID schemeID="BE:CBE">0411104311</cbc:CompanyID>
+            </cac:PartyLegalEntity>
+        </cac:Party>
+    </cac:AccountingSupplierParty>
+    <cac:AccountingCustomerParty>
+        <cac:Party>
+            <cac:PartyIdentification>
+                <cbc:ID>XXXXXXX</cbc:ID>
+            </cac:PartyIdentification>
+            <cac:PartyName>
+                <cbc:Name>AAAA BBBBBB</cbc:Name>
+            </cac:PartyName>
+            <cac:PostalAddress>
+                <cbc:StreetName>Chaussée d'Alsemberg</cbc:StreetName>
+                <cbc:BuildingNumber>000</cbc:BuildingNumber>
+                <cbc:CityName>Uccle</cbc:CityName>
+                <cbc:PostalZone>1180</cbc:PostalZone>
+            </cac:PostalAddress>
+        </cac:Party>
+    </cac:AccountingCustomerParty>
+    <cac:PaymentMeans>
+        <cbc:PaymentMeansCode listID="UNCL4461" listName="Payment Means"
+                              listURI="http://docs.oasis-open.org/ubl/os-UBL-2.0-update/cl/gc/default/PaymentMeansCode-2.0.gc">
+            1
+        </cbc:PaymentMeansCode>
+        <cbc:PaymentDueDate>2023-11-15Z</cbc:PaymentDueDate>
+        <cbc:InstructionID>500013187932</cbc:InstructionID>
+        <cbc:PaymentID>500013187932</cbc:PaymentID>
+        <cac:PayeeFinancialAccount>
+            <cbc:ID schemeID="IBAN">BE70 2100 5803 2425</cbc:ID>
+        </cac:PayeeFinancialAccount>
+    </cac:PaymentMeans>
+    <cac:TaxTotal>
+        <cbc:TaxAmount currencyID="EUR">0</cbc:TaxAmount>
+        <cac:TaxSubtotal>
+            <cbc:TaxableAmount currencyID="EUR">649.0</cbc:TaxableAmount>
+            <cbc:TaxAmount currencyID="EUR">0</cbc:TaxAmount>
+            <cac:TaxCategory>
+                <cbc:ID schemeID="UNCL5305">Z</cbc:ID>
+                <cbc:Name>00</cbc:Name>
+                <cbc:Percent>0</cbc:Percent>
+                <cac:TaxScheme>
+                    <cbc:ID>VAT</cbc:ID>
+                </cac:TaxScheme>
+            </cac:TaxCategory>
+        </cac:TaxSubtotal>
+    </cac:TaxTotal>
+    <cac:LegalMonetaryTotal>
+        <cbc:LineExtensionAmount currencyID="EUR">649.0</cbc:LineExtensionAmount>
+        <cbc:TaxExclusiveAmount currencyID="EUR">649.0</cbc:TaxExclusiveAmount>
+        <cbc:TaxInclusiveAmount currencyID="EUR">649.0</cbc:TaxInclusiveAmount>
+        <cbc:PayableAmount currencyID="EUR">649.0</cbc:PayableAmount>
+    </cac:LegalMonetaryTotal>
+    <cac:InvoiceLine>
+        <cbc:ID>1</cbc:ID>
+        <cbc:LineExtensionAmount currencyID="EUR">5.0</cbc:LineExtensionAmount>
+        <cac:Item>
+            <cbc:Name>Contribution environmentale</cbc:Name>
+            <cac:ClassifiedTaxCategory>
+                <cbc:ID schemeID="UNCL5305">Z</cbc:ID>
+                <cbc:Name>00</cbc:Name>
+                <cbc:Percent>0</cbc:Percent>
+                <cac:TaxScheme>
+                    <cbc:ID>VAT</cbc:ID>
+                </cac:TaxScheme>
+            </cac:ClassifiedTaxCategory>
+        </cac:Item>
+    </cac:InvoiceLine>
+    <cac:InvoiceLine>
+        <cbc:ID>2</cbc:ID>
+        <cbc:LineExtensionAmount currencyID="EUR">534.0</cbc:LineExtensionAmount>
+        <cac:Item>
+            <cbc:Name>Hockey - Adultes</cbc:Name>
+            <cac:ClassifiedTaxCategory>
+                <cbc:ID schemeID="UNCL5305">Z</cbc:ID>
+                <cbc:Name>00</cbc:Name>
+                <cbc:Percent>0</cbc:Percent>
+                <cac:TaxScheme>
+                    <cbc:ID>VAT</cbc:ID>
+                </cac:TaxScheme>
+            </cac:ClassifiedTaxCategory>
+        </cac:Item>
+    </cac:InvoiceLine>
+    <cac:InvoiceLine>
+        <cbc:ID>3</cbc:ID>
+        <cbc:LineExtensionAmount currencyID="EUR">110.0</cbc:LineExtensionAmount>
+        <cac:Item>
+            <cbc:Name>Cotisation Club né en 1920-2004 - 2023-24</cbc:Name>
+            <cac:ClassifiedTaxCategory>
+                <cbc:ID schemeID="UNCL5305">Z</cbc:ID>
+                <cbc:Name>00</cbc:Name>
+                <cbc:Percent>0</cbc:Percent>
+                <cac:TaxScheme>
+                    <cbc:ID>VAT</cbc:ID>
+                </cac:TaxScheme>
+            </cac:ClassifiedTaxCategory>
+        </cac:Item>
+    </cac:InvoiceLine>
+</Invoice>

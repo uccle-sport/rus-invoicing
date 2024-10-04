@@ -9,6 +9,7 @@ import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.Add
 import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.CountryType
 
 import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.CustomerPartyType
+import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.FinancialAccountType
 import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.InvoiceLineType
 import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.ItemType
 import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.MonetaryTotalType
@@ -17,6 +18,7 @@ import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.Par
 import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.PartyNameType
 import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.PartyTaxSchemeType
 import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.PartyType
+import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.PaymentMeansType
 import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.SupplierPartyType
 import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.TaxCategoryType
 import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_21.TaxSchemeType
@@ -26,17 +28,21 @@ import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.Company
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.DocumentCurrencyCodeType
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.EndpointIDType
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.IDType
+import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.InstructionIDType
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.InvoiceTypeCodeType
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.NameType
+import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.PaymentDueDateType
+import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.PaymentIDType
+import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_21.PaymentMeansCodeType
 import oasis.names.specification.ubl.schema.xsd.invoice_21.InvoiceType
 import java.io.File
 import java.math.BigDecimal
 
 
-fun List<InvoiceLine>.toUbl(path: String, cbe: String, year: Int): ESuccess {
+fun List<InvoiceLine>.toUbl(path: String, cbe: String, year: Int, ivNumber: Int): ESuccess {
     val sCurrency = "EUR"
 
-    val ivNumber = this.first { it.vcs != DUMMY_VCS }.vcs!!.split("/").let { "$year${"${it[1]}${it[2].dropLast(2)}".padStart(7, '0')}" }.toLong()
+    val vcs = this.first { it.vcs != DUMMY_VCS }.vcs!!
     val ivTotal = this.fold(.0) { acc, it -> acc + (it.amount ?: .0) }
 
     // Create domain object
@@ -63,7 +69,23 @@ fun List<InvoiceLine>.toUbl(path: String, cbe: String, year: Int): ESuccess {
             listID = "UNCL1001"
             value = "380"
         }
-
+        addPaymentMeans(PaymentMeansType().apply {
+            paymentMeansCode = PaymentMeansCodeType().apply {
+                listID = "UNCL4461"
+                listName = "Payment Means"
+                listURI = "http://docs.oasis-open.org/ubl/os-UBL-2.0-update/cl/gc/default/PaymentMeansCode-2.0.gc"
+                value = "1"
+            }
+            paymentDueDate = PaymentDueDateType().apply { value = PDTFactory.getCurrentXMLOffsetDateUTC() }
+            instructionID = InstructionIDType().apply { value = vcs.replace("/","") }
+            addPaymentID(PaymentIDType().apply { value = vcs.replace("/","") })
+            payeeFinancialAccount = FinancialAccountType().apply {
+                id = IDType().apply {
+                    schemeID = "IBAN"
+                    value = "BE70 2100 5803 2425"
+                }
+            }
+        })
         accountingSupplierParty = SupplierPartyType().apply {
             party = PartyType().apply {
                 endpointID = EndpointIDType().apply {
@@ -97,9 +119,17 @@ fun List<InvoiceLine>.toUbl(path: String, cbe: String, year: Int): ESuccess {
         }
         accountingCustomerParty = CustomerPartyType().apply {
             party = PartyType().apply {
-                addPartyName(PartyNameType().apply { name = NameType().apply {
-                    value = this@toUbl.firstNotNullOf { it.name }
-                } })
+                this@toUbl.firstNotNullOfOrNull { it.id }?.let {
+                    addPartyIdentification(PartyIdentificationType().apply {
+                        id = IDType(it)
+                    })
+                }
+                addPartyName(PartyNameType().apply {
+                    name = NameType().apply {
+                        value = this@toUbl.firstNotNullOf { it.name }
+                    }
+
+                })
                 postalAddress = AddressType().apply {
                     setStreetName(this@toUbl.firstNotNullOf { it.street })
                     setBuildingNumber(this@toUbl.firstNotNullOf { it.houseNumber })
