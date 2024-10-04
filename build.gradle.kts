@@ -1,9 +1,14 @@
 plugins {
     kotlin("jvm") version "1.8.21"
+    application
 }
 
 group = "be.ucclesport"
 version = "1.0-SNAPSHOT"
+
+application {
+    mainClass.set("be.ucclesport.rus.MembershipsKt")
+}
 
 repositories {
     mavenCentral()
